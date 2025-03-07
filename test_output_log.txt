@@ -1,0 +1,218 @@
+PS D:\dev\Interview Prep\IdentityE2E\technical_test> poetry run pytest .\test_car_details.py::test_vehicle_reg_details[KT17DLX]
+========================================================================================================= test session starts =========================================================================================================
+platform win32 -- Python 3.12.3, pytest-8.3.5, pluggy-1.5.0
+rootdir: D:\dev\Interview Prep\IdentityE2E\technical_test
+configfile: pytest.ini
+collecting ...
+--------------------------------------------------------------------------------------------------------- live log collection ---------------------------------------------------------------------------------------------------------
+2025-03-07 17:44:12 INFO Running test suite setup
+2025-03-07 17:44:12 INFO Found 1 input files.
+2025-03-07 17:44:12 INFO Reading car reg from car_input - V5.txt
+2025-03-07 17:44:12 INFO Found 4 registrations in 1 files
+2025-03-07 17:44:12 INFO Found vehicle_regs: ['AD58 VNF', 'KT17DLX', 'SG18 HTN', 'BW57 BOW']
+collected 1 item
+
+test_car_details.py::test_vehicle_reg_details[KT17DLX]
+----------------------------------------------------------------------------------------------------------- live log setup ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:44:12 INFO Found 1 output files.
+2025-03-07 17:44:12 INFO Reading car details from car_output - V5.txt
+2025-03-07 17:44:12 INFO Expectation file matches the expected format.
+2025-03-07 17:44:12 INFO Found 4 details in 1 files
+DevTools listening on ws://127.0.0.1:55037/devtools/browser/d3332302-4a22-4163-a2bd-10c69f637ed8
+[68272:25056:0307/174416.616:ERROR:device_event_log_impl.cc(201)] [17:44:16.617] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+
+DevTools listening on ws://127.0.0.1:55050/devtools/browser/d059f738-8250-4929-8a30-bd1226335c93
+------------------------------------------------------------------------------------------------------------ live log call ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:44:18 INFO Running test for vehicle_reg: KT17DLX
+[62160:84864:0307/174421.535:ERROR:device_event_log_impl.cc(201)] [17:44:21.535] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+2025-03-07 17:44:22 INFO Data for car was: {'make_and_model': 'Skoda Superb Sportline TDI S-A', 'year': '2017'}
+2025-03-07 17:44:22 INFO Looking for details
+PASSED                                                                                                                                                                                                                           [100%]
+
+========================================================================================================= 1 passed in 10.06s ==========================================================================================================
+PS D:\dev\Interview Prep\IdentityE2E\technical_test> poetry run pytest .\test_car_details.py::test_vehicle_reg_details[KT17DLX]
+========================================================================================================= test session starts =========================================================================================================
+platform win32 -- Python 3.12.3, pytest-8.3.5, pluggy-1.5.0
+rootdir: D:\dev\Interview Prep\IdentityE2E\technical_test
+configfile: pytest.ini
+collecting ...
+--------------------------------------------------------------------------------------------------------- live log collection ---------------------------------------------------------------------------------------------------------
+2025-03-07 17:44:36 INFO Running test suite setup
+2025-03-07 17:44:36 INFO Found 1 input files.
+2025-03-07 17:44:36 INFO Reading car reg from car_input - V5.txt
+2025-03-07 17:44:36 INFO Found 4 registrations in 1 files
+2025-03-07 17:44:36 INFO Found vehicle_regs: ['SG18 HTN', 'AD58 VNF', 'KT17DLX', 'BW57 BOW']
+collected 1 item
+
+test_car_details.py::test_vehicle_reg_details[KT17DLX]
+----------------------------------------------------------------------------------------------------------- live log setup ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:44:36 INFO Found 1 output files.
+2025-03-07 17:44:36 INFO Reading car details from car_output - V5.txt
+2025-03-07 17:44:36 INFO Expectation file matches the expected format.
+2025-03-07 17:44:36 INFO Found 4 details in 1 files
+DevTools listening on ws://127.0.0.1:55134/devtools/browser/9707f208-07b8-4f53-ad1b-9f4a769c4452
+[73608:33516:0307/174440.405:ERROR:device_event_log_impl.cc(201)] [17:44:40.405] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+
+DevTools listening on ws://127.0.0.1:55145/devtools/browser/6fab65cd-6869-4529-ba97-9c08dfa213c8
+------------------------------------------------------------------------------------------------------------ live log call ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:44:42 INFO Running test for vehicle_reg: KT17DLX
+[86368:85096:0307/174445.179:ERROR:device_event_log_impl.cc(201)] [17:44:45.179] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+2025-03-07 17:44:45 INFO Data for car was: {'make_and_model': 'Skoda Superb Sportline TDI S-A', 'year': '2017'}
+2025-03-07 17:44:45 INFO Looking for details
+PASSED                                                                                                                                                                                                                           [100%]
+
+========================================================================================================== 1 passed in 9.84s ==========================================================================================================
+PS D:\dev\Interview Prep\IdentityE2E\technical_test> poetry run pytest .\test_car_details.py
+========================================================================================================= test session starts =========================================================================================================
+platform win32 -- Python 3.12.3, pytest-8.3.5, pluggy-1.5.0
+rootdir: D:\dev\Interview Prep\IdentityE2E\technical_test
+configfile: pytest.ini
+collecting ...
+--------------------------------------------------------------------------------------------------------- live log collection ---------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:23 INFO Running test suite setup
+2025-03-07 17:45:23 INFO Found 1 input files.
+2025-03-07 17:45:23 INFO Reading car reg from car_input - V5.txt
+2025-03-07 17:45:23 INFO Found 4 registrations in 1 files
+2025-03-07 17:45:23 INFO Found vehicle_regs: ['AD58 VNF', 'KT17DLX', 'BW57 BOW', 'SG18 HTN']
+collected 4 items
+
+test_car_details.py::test_vehicle_reg_details[AD58 VNF]
+----------------------------------------------------------------------------------------------------------- live log setup ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:23 INFO Found 1 output files.
+2025-03-07 17:45:23 INFO Reading car details from car_output - V5.txt
+2025-03-07 17:45:23 INFO Expectation file matches the expected format.
+2025-03-07 17:45:23 INFO Found 4 details in 1 files
+
+DevTools listening on ws://127.0.0.1:55346/devtools/browser/2ae24b6e-d40c-4f3a-99b1-d72838d19e8c
+[88720:87692:0307/174527.442:ERROR:device_event_log_impl.cc(201)] [17:45:27.442] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+
+DevTools listening on ws://127.0.0.1:55369/devtools/browser/734b629e-b8a1-4a2a-9f86-6f550dc02630
+------------------------------------------------------------------------------------------------------------ live log call ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:31 INFO Running test for vehicle_reg: AD58 VNF
+[56508:84892:0307/174532.217:ERROR:device_event_log_impl.cc(201)] [17:45:32.216] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+2025-03-07 17:45:32 INFO Data for car was: {'make_and_model': 'BMW 120D M Sport', 'year': '2008'}
+2025-03-07 17:45:32 INFO Looking for details
+PASSED                                                                                                                                                                                                                           [ 25%]
+test_car_details.py::test_vehicle_reg_details[KT17DLX]
+------------------------------------------------------------------------------------------------------------ live log call ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:33 INFO Running test for vehicle_reg: KT17DLX
+2025-03-07 17:45:34 INFO Data for car was: {'make_and_model': 'Skoda Superb Sportline TDI S-A', 'year': '2017'}
+2025-03-07 17:45:34 INFO Looking for details
+PASSED                                                                                                                                                                                                                           [ 50%]
+test_car_details.py::test_vehicle_reg_details[BW57 BOW]
+------------------------------------------------------------------------------------------------------------ live log call ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:34 INFO Running test for vehicle_reg: BW57 BOW
+FAILED                                                                                                                                                                                                                           [ 75%]
+test_car_details.py::test_vehicle_reg_details[SG18 HTN]
+------------------------------------------------------------------------------------------------------------ live log call ------------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:36 INFO Running test for vehicle_reg: SG18 HTN
+2025-03-07 17:45:37 INFO Data for car was: {'make_and_model': 'Volkswagen Golf SE Navigation TSI EVO', 'year': '2018'}
+2025-03-07 17:45:37 INFO Looking for details
+PASSED                                                                                                                                                                                                                           [100%]
+
+============================================================================================================== FAILURES ===============================================================================================================
+_________________________________________________________________________________________________ test_vehicle_reg_details[BW57 BOW] __________________________________________________________________________________________________
+
+vehicle_reg = 'BW57 BOW', motorway_home_page = <technical_test.framework.Pages.MotorwayHomepage object at 0x0000023B38ACABA0>
+expected_data = {'AD58 VNF': ('BMW 120D M Sport', '2008'), 'BW57 BOF': ('Toyota Yaris T2', '2008'), 'KT17 DLX': ('Skoda Superb Sportline TDI S-A', '2017'), 'SG18 HTN': ('Volkswagen Golf SE Navigation TSI EVO', '2018')}
+
+    @pytest.mark.parametrize("vehicle_reg", [(v) for v in vehicle_regs])
+    def test_vehicle_reg_details(vehicle_reg, motorway_home_page, expected_data):
+        logging.info("Running test for vehicle_reg: %s" % vehicle_reg)
+>       results_page = motorway_home_page.submit_vehicle_reg(vehicle_reg)
+
+test_car_details.py:94:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+framework\Pages.py:65: in submit_vehicle_reg
+    return MotorwayResults(self.driver)
+framework\Pages.py:83: in __init__
+    self.wait_for_page_loaded()
+framework\Pages.py:87: in wait_for_page_loaded
+    self.driver.wait_for_element_by_id(id=self.MILEAGE_INPUT_ID)
+framework\utils.py:16: in wait_for_element_by_id
+    return WebDriverWait(self, timeout).until(lambda x: x.find_element(By.ID, id))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <selenium.webdriver.support.wait.WebDriverWait (session="e5c9e4af073edc2dd968e3f3371e0067")>, method = <function WebDriver.wait_for_element_by_id.<locals>.<lambda> at 0x0000023B38F84D60>, message = ''
+
+    def until(self, method: Callable[[D], Union[Literal[False], T]], message: str = "") -> T:
+        """Wait until the method returns a value that is not False.
+
+        Calls the method provided with the driver as an argument until the
+        return value does not evaluate to ``False``.
+
+        Parameters:
+        ----------
+        method: callable(WebDriver)
+            - A callable object that takes a WebDriver instance as an argument.
+
+        message: str
+            - Optional message for :exc:`TimeoutException`
+
+        Return:
+        -------
+        object: T
+            - The result of the last call to `method`
+
+        Raises:
+        -------
+        TimeoutException
+            - If 'method' does not return a truthy value within the WebDriverWait
+            object's timeout
+
+        Example:
+        --------
+        >>> from selenium.webdriver.common.by import By
+        >>> from selenium.webdriver.support.ui import WebDriverWait
+        >>> from selenium.webdriver.support import expected_conditions as EC
+
+        # Wait until an element is visible on the page
+        >>> wait = WebDriverWait(driver, 10)
+        >>> element = wait.until(EC.visibility_of_element_located((By.ID, "exampleId")))
+        >>> print(element.text)
+        """
+        screen = None
+        stacktrace = None
+
+        end_time = time.monotonic() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, "screen", None)
+                stacktrace = getattr(exc, "stacktrace", None)
+            if time.monotonic() > end_time:
+                break
+            time.sleep(self._poll)
+>       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message:
+E       Stacktrace:
+E               GetHandleVerifier [0x00007FF7859B02F5+28725]
+E               (No symbol) [0x00007FF785912AE0]
+E               (No symbol) [0x00007FF7857A510A]
+E               (No symbol) [0x00007FF7857F93D2]
+E               (No symbol) [0x00007FF7857F95FC]
+E               (No symbol) [0x00007FF785843407]
+E               (No symbol) [0x00007FF78581FFEF]
+E               (No symbol) [0x00007FF785840181]
+E               (No symbol) [0x00007FF78581FD53]
+E               (No symbol) [0x00007FF7857EA0E3]
+E               (No symbol) [0x00007FF7857EB471]
+E               GetHandleVerifier [0x00007FF785CDF30D+3366989]
+E               GetHandleVerifier [0x00007FF785CF12F0+3440688]
+E               GetHandleVerifier [0x00007FF785CE78FD+3401277]
+E               GetHandleVerifier [0x00007FF785A7AAAB+858091]
+E               (No symbol) [0x00007FF78591A304]
+E               (No symbol) [0x00007FF78591A49D]
+E               (No symbol) [0x00007FF785908B69]
+E               BaseThreadInitThunk [0x00007FFBAEDE7374+20]
+E               RtlUserThreadStart [0x00007FFBAF7BCC91+33]
+
+C:\Users\jake-dev\AppData\Local\pypoetry\Cache\virtualenvs\technical-test-FKBP5Tq1-py3.12\Lib\site-packages\selenium\webdriver\support\wait.py:146: TimeoutException
+---------------------------------------------------------------------------------------------------------- Captured log call ----------------------------------------------------------------------------------------------------------
+2025-03-07 17:45:34 INFO Running test for vehicle_reg: BW57 BOW
+======================================================================================================= short test summary info =======================================================================================================
+FAILED test_car_details.py::test_vehicle_reg_details[BW57 BOW] - selenium.common.exceptions.TimeoutException: Message:
+==================================================================================================== 1 failed, 3 passed in 15.15s
