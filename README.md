@@ -23,3 +23,6 @@ Run tests in poetry environment
 ===============================
 Run tests using poetry configured python environment
 poetry run pytest
+
+Alternately, a single test can be run with, for instance:
+poetry run pytest .\test_car_details.py::test_vehicle_reg_details[KT17DLX]

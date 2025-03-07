@@ -1,6 +1,6 @@
 import logging
 import re
-
+import csv
 import pytest
 import os
 import pathlib
@@ -80,18 +80,73 @@ def web_driver():
 
 @pytest.fixture()
 def motorway_home_page(web_driver):
-    # MotowayHomepage object auto
+    # For now, there's a convenience function on top level Page ot navigate to a specific page.
     return Page(web_driver).goto_motorway_home()
 
+# Only need to load expected data once.
+@pytest.fixture(scope="session")
+def expected_data():
+    return get_vehicle_regs_from_input_files()
+
 @pytest.mark.parametrize("vehicle_reg", [(v) for v in vehicle_regs])
-def test_vehicle_reg_details(vehicle_reg, motorway_home_page):
+def test_vehicle_reg_details(vehicle_reg, motorway_home_page, expected_data):
     logging.info("Running test for vehicle_reg: %s" % vehicle_reg)
-    motorway_home_page.submit_vehicle_reg(vehicle_reg)
-    import time
-    # This sleep is purely here so that I can see things while I develop briefly. This would NEVER really be checked
-    # into VCS. It would be truly awful. It features in many of my commits here simply because I'm using it.
-    time.sleep(3)
-    assert True
+    results_page = motorway_home_page.submit_vehicle_reg(vehicle_reg)
+    page_car_details = results_page.get_car_details()
 
+    logging.info("Data for car was: %s" % page_car_details)
+    compare_page_details_and_expected_details(vehicle_reg, page_car_details, expected_data)
 
+def get_vehicle_regs_from_input_files():
+    """Retrieves the expected vehicle data for comparisons in the tests."""
+    vehicle_details = {}
+    output_file_names = [f for f in os.listdir(EXPECTATIONS_FILES_DIR) if pathlib.Path(EXPECTATIONS_FILES_DIR, f).is_file()]
+    logging.info("Found %s output files." % len(output_file_names))
 
+    for file_path in output_file_names:
+        logging.info("Reading car details from %s" % file_path)
+        # Again, file could be a dir, but I'm happy that we'll just error if it is. If we want to support subdirs later,
+        # we can edit this and recursively grab files.
+        new_details = load_expected_data_file(file_path=file_path)
+        # TODO: Check if any details mismatch. If so, error.
+        for car in new_details:
+            assert car not in vehicle_details, "Same car details feature in two output files. Currently not supported."
+        # If they're all new, let's update
+        vehicle_details.update(new_details)
+
+    logging.info("Found %s details in %s files" % (len(vehicle_details), len(output_file_names)))
+    return vehicle_details
+
+def load_expected_data_file(file_path):
+    # Let's store the details in a dictionary. Tests can query it later.
+    details_dict = {}
+    logging.debug("Looking for vehicle details in %s" % file_path)
+    with open(pathlib.Path(EXPECTATIONS_FILES_DIR, file_path)) as f:
+        # If this file was massive, we might consider reading this in chunks. For now, let's read it in one go.
+        csv_reader = csv.reader(f)
+        # Skip the first row, since it contains the header etc... (Let's check this is true
+        header_line = next(csv_reader)
+        assert header_line[0] == "VARIANT_REG"
+        logging.info("Expectation file matches the expected format.")
+        for row in csv_reader:
+            logging.debug("Found details: %s" % row)
+            assert len(row) == 3, "Expectation CSV not expected format. Row should have 3 components. %s" % row
+            # Use the first element as the key to the dictionary. Store the two remaining fields (make/model and year)
+            # as a tuple.
+            # Check it has the expected format, since we assume that it does later. If it ever doesn't, we'd need to
+            # update the assumption
+            assert len(row[0]) == 8 # Two letters, two numbers, space, three letters.
+            details_dict[row[0]] = (row[1], row[2])
+    return details_dict
+
+def compare_page_details_and_expected_details(car_reg, page_details, expected_details):
+    # First thing is to check whether the provided car reg includes the space or not. Currently, sometimes it doesn't.
+    # Sanitize it. All the car regs in the expected file do currently, so we've set this as a requirement.
+    # However, we didn't sanitise it on input, since it's potentially valid test case data.
+    if len(car_reg) == 7:
+        car_reg = car_reg[0:4] + " " + car_reg[4:]
+    logging.info("Looking for details")
+    assert car_reg in expected_details, "Could not find car reg %s in expected data: %s" % (car_reg, expected_details)
+    car_expected_details = expected_details[car_reg]
+    assert car_expected_details[0] == page_details["make_and_model"]
+    assert car_expected_details[1] == page_details["year"]

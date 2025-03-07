@@ -39,6 +39,11 @@ class MotorwayHomepage(Page):
         # The page might be loading. Let's wait until at least the VRM input is available before we allow the test to
         # proceed.
         # Will proceed as soon as it is.
+        # IMPORTANT!
+        # At the moment, this function allows various other calls on the page to ASSUME that the elements will be
+        # available, i.e: we can just call find_element() and they should be loaded. Any time they're missing would be
+        # a bug, and so we should fail, so just using find_element() is reasonable.
+        # For any non-static elements, we should implement their own "waits" in the functions that use them.
         self.wait_for_page_loaded()
 
     # TODO: Really I'd like to move this to a "wait_for_page_loaded()" function on the parent, which always gets
@@ -54,3 +59,43 @@ class MotorwayHomepage(Page):
         self.driver.find_element(by=By.ID, value=self.VRM_INPUT_ID).send_keys(vehicle_reg)
         button = self.driver.find_element(by=By.CSS_SELECTOR, value=self.VRM_SUBMIT_CSS)
         button.submit()
+        # Note that when we navigate, the page checks that it loads itself. If for any reason, the vehicle isn't found,
+        # We won't find the elements that the page expects, and so will throw an error.
+        # Later, the utility framework OR the tests could try/catch and return nicer error messages when this happens.
+        return MotorwayResults(self.driver)
+
+class MotorwayResults(Page):
+
+    # Unclear if it's ever valid to navigate straight here, but I'll update the URL here nevertheless.
+    URL = "https://motorway.co.uk/mileage"
+
+    # Another element with a nice ID
+    MILEAGE_INPUT_ID = "mileage-input"
+    # Another where I've taken a stab at a CSS selector I hope would be fairly stable.
+    MAKE_AND_MODEL_CSS = "h1[class^='HeroVehicle__title']"
+    # Sadly, this one is even uglier. This CSS will always grab the first element in the details box. So long as the
+    # year remains the first thing they display, this will be fine.
+    YEAR_CSS = "ul[class^='HeroVehicle__details'] li"
+
+    # TODO: Again, likely refactor, as described above. Duplicate code.
+    def __init__(self, *args, **kwargs):
+        super(MotorwayResults, self).__init__(*args, **kwargs)
+        self.wait_for_page_loaded()
+
+    # TODO: Again, likely refactor, as described above. Duplicate code.
+    def wait_for_page_loaded(self):
+        self.driver.wait_for_element_by_id(id=self.MILEAGE_INPUT_ID)
+
+    def get_make_and_model(self):
+        return self.driver.find_element(By.CSS_SELECTOR, value=self.MAKE_AND_MODEL_CSS).text
+
+    def get_year(self):
+        return self.driver.find_element(By.CSS_SELECTOR, value=self.YEAR_CSS).text
+
+    def get_car_details(self):
+        # I'd strongly consider making this a Car or CarDetails class in its own right if we started interacting heavily
+        # with them. As it is, for this tiny set of tests, it's not necessary.
+        return {
+            "make_and_model": self.get_make_and_model(),
+            "year": self.get_year()
+        }
