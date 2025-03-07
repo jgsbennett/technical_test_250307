@@ -4,6 +4,8 @@ import re
 import pytest
 import os
 import pathlib
+from .framework.utils import WebDriver
+from .framework.Pages import Page
 
 # Define input and output locations. Could easily make these configurable by command line args, but for now, let's
 # just say we'll read anything in these dirs.
@@ -58,9 +60,32 @@ logging.info("Found vehicle_regs: %s" % vehicle_regs)
 # This assert would cause the process to exit with an error code if there are no regs, allowing CI to detect and fail.
 assert len(vehicle_regs) > 0, "No vehicle registrations found in input files."
 
+# Session scoped variable since we only want the driver to be opened once.
+# It's possible that there could be errors that killed the browser etc...
+# If we were concerned about this we could always add a function-scoped fixture which checked for the healthy state
+# of the browser window and refreshed the driver if needed.
+@pytest.fixture(scope="session")
+def web_driver():
+    # Here, we could do some detection/choices about which browser to use.
+    try:
+        webdriver = WebDriver()
+    except Exception as e:
+        logging.error("Failed to load webdriver. You may need some additional config to ensure this works")
+        # We could attempt to diagnose or try harder here. For now, out of scope. Only handling to demonstrate we could
+        # As it is, just re-raise.
+        raise
+    return WebDriver()
+
+@pytest.fixture()
+def motorway_home_page(web_driver):
+    # MotowayHomepage object auto
+    return Page(web_driver).goto_motorway_home()
+
 @pytest.mark.parametrize("vehicle_reg", [(v) for v in vehicle_regs])
-def test_something_easy(vehicle_reg):
+def test_vehicle_reg_details(vehicle_reg, motorway_home_page):
     logging.info("Running test for vehicle_reg: %s" % vehicle_reg)
+    import time
+    time.sleep(3)
     assert True
 
 
