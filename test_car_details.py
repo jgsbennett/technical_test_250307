@@ -28,6 +28,8 @@ def get_vehicle_regs_from_file(file_path):
         prog = re.compile(pattern)
         vehicle_regs = prog.findall(string=file_string)
         logging.debug("Found vehicle regs: %s" % vehicle_regs)
+        # Note: Choosing not to clean up whitespace in the registrations. We could do that, if it matters. As it is,
+        # It seems reasonable to submit both with/without the space.
     # Return the "set" of the regs to ensure there are no duplicates.
     # In the future, we might decide we need multiple regular expressions if it turns out the one above is insufficient
     # on its own. Collecting regs into a set allows us to also stop it mattering if a reg matches multiple expressions
@@ -84,7 +86,10 @@ def motorway_home_page(web_driver):
 @pytest.mark.parametrize("vehicle_reg", [(v) for v in vehicle_regs])
 def test_vehicle_reg_details(vehicle_reg, motorway_home_page):
     logging.info("Running test for vehicle_reg: %s" % vehicle_reg)
+    motorway_home_page.submit_vehicle_reg(vehicle_reg)
     import time
+    # This sleep is purely here so that I can see things while I develop briefly. This would NEVER really be checked
+    # into VCS. It would be truly awful. It features in many of my commits here simply because I'm using it.
     time.sleep(3)
     assert True
 
