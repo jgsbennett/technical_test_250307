@@ -1,0 +1,9 @@
+# PyCharm settings.
+.idea/
+
+# Pytest cache dir
+.pytest_cache
+
+# Python bytecode
+**/*.pyc
+
