@@ -1,4 +1,6 @@
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
+import logging
 
 class Page(object):
     """Top level class representing a page."""
@@ -31,10 +33,13 @@ class MotorwayHomepage(Page):
     # I'm taking a guess this would be relatively stable, but I might want to consult with devs, or ideally get an ID
     # added for this component too, if that's an option.
     VRM_SUBMIT_CSS = "div[class^='HomepageVRM__component'] button[type='submit']"
-    # VRM_SUBMIT_CSS = "#vrm-input"
+    # If there is an error, it's briefly displayed here
+    VEHICLE_ERROR_CSS = "div[class^='InfoBox-module']"
 
     def __init__(self, *args, **kwargs):
         super(MotorwayHomepage, self).__init__(*args, **kwargs)
+        # Logs which pages we navigate to, taking note of child classes. Helps diagnose any issues
+        logging.info("Loading page: %s" % self.__class__)
 
         # The page might be loading. Let's wait until at least the VRM input is available before we allow the test to
         # proceed.
@@ -56,13 +61,41 @@ class MotorwayHomepage(Page):
 
     def submit_vehicle_reg(self, vehicle_reg):
         """Submits the vehicle reg and returns the next page."""
+        logging.info("Submitting vehicle details: %s" % vehicle_reg)
         self.driver.find_element(by=By.ID, value=self.VRM_INPUT_ID).send_keys(vehicle_reg)
         button = self.driver.find_element(by=By.CSS_SELECTOR, value=self.VRM_SUBMIT_CSS)
         button.submit()
         # Note that when we navigate, the page checks that it loads itself. If for any reason, the vehicle isn't found,
         # We won't find the elements that the page expects, and so will throw an error.
         # Later, the utility framework OR the tests could try/catch and return nicer error messages when this happens.
-        return MotorwayResults(self.driver)
+        try:
+            return MotorwayResults(self.driver)
+        except TimeoutException as e:
+            # A common reason for this, is if the vehicle reg was not found. Let's check for that common case and give
+            # a nice error if so. Otherwise, simply re-raise the error.
+            try:
+                error_message = self.find_failure_message()
+                if "Did we get the reg right?" in error_message:
+                    logging.info("Found error message on page.")
+                    # Raise the nicer error message for the more predictable failure.
+                    raise AssertionError("Vehicle reg not found on motorway.co.uk: %s" % vehicle_reg)
+            except Exception as sub_e:
+                logging.info(
+                    "Unable to detect car reg failure message. Some other error is possible. Sub error was: %s" % sub_e
+                )
+                # Raise the original error message, since that's how we ended up here.
+                raise e
+
+    # Techincally, this error message appears on the home page. We currently only ever run into it if we've attempted
+    # to wait for a navigation, by which time I'm confident it ought to be here if it's going to be.
+    # It does disappear fairly quickly afterwards, so there's a potential timing issue here. Unclear if there's any other
+    # evidence left behind in this case that we could check instead. It does mean that if we increased the default wait
+    # for navigating we might miss this. We could definitely refactor the "submit" function to implement a different
+    # wait loop which would EITHER detect the success page OR the error immediately, but I'm leaving that out of scope
+    # for this exercise, since it's reliable for my purposes.
+    def find_failure_message(self):
+        return self.driver.find_element(By.CSS_SELECTOR, self.VEHICLE_ERROR_CSS).text
+
 
 class MotorwayResults(Page):
 
