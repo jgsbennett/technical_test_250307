@@ -75,16 +75,6 @@ class MotorwayHomepage(Page):
             # a nice error if so. Otherwise, simply re-raise the error.
             try:
                 error_message = self.find_failure_message()
-                if "Did we get the reg right?" in error_message:
-                    logging.info("Found error message on page.")
-                    # Raise the nicer error message for the more predictable failure.
-                    raise AssertionError("Vehicle reg not found on motorway.co.uk: %s" % vehicle_reg)
-                else:
-                    # As it happens, I know it's possible to get an error for too many attempts to access the site, for
-                    # instance, but I'll leave detecting that case out of scope too. It's similar to the failure message case above.
-                    # Would be good to collect logs or screenshots here. Outside scope for this test.
-                    logging.info("Failure message not as expected: %s" % error_message)
-                    raise AssertionError("Timed out submitting vehicle reg. Unrecognised error: %s" % error_message)
             except Exception as sub_e:
                 logging.info(
                     "Unable to detect car reg failure message. Some other error is possible. Sub error was: %s" % sub_e
@@ -93,6 +83,16 @@ class MotorwayHomepage(Page):
                 # Again would be good to get error here.
                 # Raise original error message.
                 raise e
+            if "Did we get the reg right?" in error_message:
+                logging.info("Found error message on page.")
+                # Raise the nicer error message for the more predictable failure.
+                raise AssertionError("Vehicle reg not found on motorway.co.uk: %s" % vehicle_reg)
+            else:
+                # As it happens, I know it's possible to get an error for too many attempts to access the site, for
+                # instance, but I'll leave detecting that case out of scope too. It's similar to the failure message case above.
+                # Would be good to collect logs or screenshots here. Outside scope for this test.
+                logging.info("Failure message not as expected: %s" % error_message)
+                raise AssertionError("Timed out submitting vehicle reg. Unrecognised error: %s" % error_message)
 
     # Technically, this error message appears on the home page. We currently only ever run into it if we've attempted
     # to wait for a navigation, by which time I'm confident it ought to be here if it's going to be.
