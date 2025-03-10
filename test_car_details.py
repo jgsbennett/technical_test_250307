@@ -38,7 +38,7 @@ def get_vehicle_regs_from_file(file_path):
 
 def get_vehicle_regs_from_input_files():
     """Retrieves the vehicle registrations from the input files."""
-    vehicle_regs = []
+    vehicle_regs = set([])
     input_file_names = [f for f in os.listdir(INPUT_FILES_DIR) if pathlib.Path(INPUT_FILES_DIR, f).is_file()]
     logging.info("Found %s input files." % len(input_file_names))
 
@@ -46,7 +46,7 @@ def get_vehicle_regs_from_input_files():
         logging.info("Reading car reg from %s" % file_path)
         # File could be a dir, but I'm happy that we'll just error if it is. If we want to support subdirs later,
         # we can edit this and recursively grab files.
-        vehicle_regs.extend(get_vehicle_regs_from_file(file_path=file_path))
+        vehicle_regs.update(get_vehicle_regs_from_file(file_path=file_path))
     logging.info("Found %s registrations in %s files" % (len(vehicle_regs), len(input_file_names)))
     return vehicle_regs
 
@@ -86,7 +86,7 @@ def motorway_home_page(web_driver):
 # Only need to load expected data once.
 @pytest.fixture(scope="session")
 def expected_data():
-    return get_vehicle_regs_from_input_files()
+    return get_vehicle_regs_from_expected_files()
 
 @pytest.mark.parametrize("vehicle_reg", [(v) for v in vehicle_regs])
 def test_vehicle_reg_details(vehicle_reg, motorway_home_page, expected_data):
@@ -97,7 +97,7 @@ def test_vehicle_reg_details(vehicle_reg, motorway_home_page, expected_data):
     logging.info("Data for car was: %s" % page_car_details)
     compare_page_details_and_expected_details(vehicle_reg, page_car_details, expected_data)
 
-def get_vehicle_regs_from_input_files():
+def get_vehicle_regs_from_expected_files():
     """Retrieves the expected vehicle data for comparisons in the tests."""
     vehicle_details = {}
     output_file_names = [f for f in os.listdir(EXPECTATIONS_FILES_DIR) if pathlib.Path(EXPECTATIONS_FILES_DIR, f).is_file()]
